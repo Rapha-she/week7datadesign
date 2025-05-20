@@ -1,4 +1,5 @@
 Library Management System Database
+
 Project Description
 This project is a relational database schema for a Library Management System built using MySQL. It manages core entities like Books, Authors, Publishers, Members, and Loans. The schema also handles many-to-many relationships, such as Books belonging to multiple Genres.
 
