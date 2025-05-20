@@ -1,0 +1,61 @@
+-- Library Management System Database Schema
+
+-- Authors table
+CREATE TABLE Authors (
+    author_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    bio TEXT
+);
+
+-- Publishers table
+CREATE TABLE Publishers (
+    publisher_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    address VARCHAR(255)
+);
+
+-- Books table
+CREATE TABLE Books (
+    book_id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    author_id INT NOT NULL,
+    publisher_id INT NOT NULL,
+    ISBN VARCHAR(20) UNIQUE,
+    available_copies INT DEFAULT 0,
+    FOREIGN KEY (author_id) REFERENCES Authors(author_id),
+    FOREIGN KEY (publisher_id) REFERENCES Publishers(publisher_id)
+);
+
+-- Members table
+CREATE TABLE Members (
+    member_id INT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    phone VARCHAR(15)
+);
+
+-- Loans table
+CREATE TABLE Loans (
+    loan_id INT AUTO_INCREMENT PRIMARY KEY,
+    book_id INT NOT NULL,
+    member_id INT NOT NULL,
+    loan_date DATE NOT NULL,
+    return_date DATE,
+    FOREIGN KEY (book_id) REFERENCES Books(book_id),
+    FOREIGN KEY (member_id) REFERENCES Members(member_id)
+);
+
+-- Genres table
+CREATE TABLE Genres (
+    genre_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
+
+-- BookGenres table for many-to-many relationship between Books and Genres
+CREATE TABLE BookGenres (
+    book_id INT NOT NULL,
+    genre_id INT NOT NULL,
+    PRIMARY KEY (book_id, genre_id),
+    FOREIGN KEY (book_id) REFERENCES Books(book_id),
+    FOREIGN KEY (genre_id) REFERENCES Genres(genre_id)
+);
